@@ -1,0 +1,34 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "Availability" (
+	"id"	INTEGER,
+	"user_id"	INTEGER,
+	"day_of_week"	TEXT NOT NULL,
+	"start_time"	TEXT NOT NULL,
+	"end_time"	INTEGER,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "Users"("id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "OptimizationLogs" (
+	"id"	INTEGER,
+	"run_date"	TEXT NOT NULL,
+	"criteria_used"	TEXT NOT NULL,
+	"success_rate"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Shifts" (
+	"id"	INTEGER,
+	"user_id"	INTEGER,
+	"day_of_week"	INTEGER NOT NULL,
+	"start_time"	TEXT NOT NULL,
+	"end_time"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "Users"("id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Users" (
+	"id"	INTEGER,
+	"Name"	TEXT NOT NULL UNIQUE,
+	"Title"	TEXT NOT NULL,
+	"Role"	TEXT NOT NULL DEFAULT 'Employee',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+COMMIT;
