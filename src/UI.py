@@ -3,6 +3,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -33,10 +34,16 @@ class LoginPage(ttk.Frame):
         self.username = ttk.Entry(self)
         self.username.pack(pady=5)
 
-        ttk.Button(self, text="Login", command=lambda: print(self.username.get())).pack(pady=10)
+        ttk.Button(self, text="Login", command=lambda: print(self.username.get())).pack(
+            pady=10
+        )
 
         ttk.Label(self, text="Click here to make account").pack(pady=10)
-        ttk.Button(self, text="Create Account", command=lambda: controller.show_frame("CreateAccountPage")).pack()
+        ttk.Button(
+            self,
+            text="Create Account",
+            command=lambda: controller.show_frame("CreateAccountPage"),
+        ).pack()
 
 
 class CreateAccountPage(ttk.Frame):
@@ -47,8 +54,16 @@ class CreateAccountPage(ttk.Frame):
         self.new_user = ttk.Entry(self)
         self.new_user.pack(pady=5)
 
-        ttk.Button(self, text="Register", command=lambda: print(f"Registered: {self.new_user.get()}")).pack(pady=10)
-        ttk.Button(self, text="Back to Login", command=lambda: controller.show_frame("LoginPage")).pack()
+        ttk.Button(
+            self,
+            text="Register",
+            command=lambda: print(f"Registered: {self.new_user.get()}"),
+        ).pack(pady=10)
+        ttk.Button(
+            self,
+            text="Back to Login",
+            command=lambda: controller.show_frame("LoginPage"),
+        ).pack()
 
 
 if __name__ == "__main__":

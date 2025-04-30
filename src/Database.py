@@ -1,10 +1,11 @@
 import sqlite3
 
+
 class DatabaseConnection:
     _instance = None
     _connection = None
 
-    def __new__(cls, db_path="schema.sql"):
+    def __new__(cls, db_path="../database/schema.sql"):
         if cls._instance is None:
             cls._instance = super(DatabaseConnection, cls).__new__(cls)
             cls._connection = sqlite3.connect(db_path)
@@ -19,13 +20,17 @@ class DatabaseConnection:
             self._connection = None
             DatabaseConnection._instance = None
 
+
 class UserTable:
     def __init__(self):
         self.conn = DatabaseConnection().get_connection()
         self.cursor = self.conn.cursor()
 
-    def create_user(self, name, title, role='Employee'):
-        self.cursor.execute("INSERT INTO Users (Name, Title, Role) VALUES (?, ?, ?)", (name, title, role))
+    def create_user(self, name, title, role="Employee"):
+        self.cursor.execute(
+            "INSERT INTO Users (Name, Title, Role) VALUES (?, ?, ?)",
+            (name, title, role),
+        )
         self.conn.commit()
         return self.cursor.lastrowid
 
@@ -39,11 +44,17 @@ class UserTable:
 
     def update_user(self, user_id, name=None, title=None, role=None):
         if name:
-            self.cursor.execute("UPDATE Users SET Name = ? WHERE id = ?", (name, user_id))
+            self.cursor.execute(
+                "UPDATE Users SET Name = ? WHERE id = ?", (name, user_id)
+            )
         if title:
-            self.cursor.execute("UPDATE Users SET Title = ? WHERE id = ?", (title, user_id))
+            self.cursor.execute(
+                "UPDATE Users SET Title = ? WHERE id = ?", (title, user_id)
+            )
         if role:
-            self.cursor.execute("UPDATE Users SET Role = ? WHERE id = ?", (role, user_id))
+            self.cursor.execute(
+                "UPDATE Users SET Role = ? WHERE id = ?", (role, user_id)
+            )
         self.conn.commit()
 
     def delete_user(self, user_id):
@@ -57,9 +68,12 @@ class AvailabilityTable:
         self.cursor = self.conn.cursor()
 
     def add_availability(self, user_id, day_of_week, start_time, end_time):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             INSERT INTO Availability (user_id, day_of_week, start_time, end_time)
-            VALUES (?, ?, ?, ?)""", (user_id, day_of_week, start_time, end_time))
+            VALUES (?, ?, ?, ?)""",
+            (user_id, day_of_week, start_time, end_time),
+        )
         self.conn.commit()
 
     def get_availability_by_user(self, user_id):
@@ -74,15 +88,19 @@ class AvailabilityTable:
         self.cursor.execute("DELETE FROM Availability WHERE id = ?", (availability_id,))
         self.conn.commit()
 
+
 class ShiftTable:
     def __init__(self):
         self.conn = DatabaseConnection().get_connection()
         self.cursor = self.conn.cursor()
 
     def create_shift(self, user_id, day_of_week, start_time, end_time):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             INSERT INTO Shifts (user_id, day_of_week, start_time, end_time)
-            VALUES (?, ?, ?, ?)""", (user_id, day_of_week, start_time, end_time))
+            VALUES (?, ?, ?, ?)""",
+            (user_id, day_of_week, start_time, end_time),
+        )
         self.conn.commit()
 
     def get_shifts_by_user(self, user_id):
@@ -95,9 +113,13 @@ class ShiftTable:
 
     def update_shift(self, shift_id, start_time=None, end_time=None):
         if start_time:
-            self.cursor.execute("UPDATE Shifts SET start_time = ? WHERE id = ?", (start_time, shift_id))
+            self.cursor.execute(
+                "UPDATE Shifts SET start_time = ? WHERE id = ?", (start_time, shift_id)
+            )
         if end_time:
-            self.cursor.execute("UPDATE Shifts SET end_time = ? WHERE id = ?", (end_time, shift_id))
+            self.cursor.execute(
+                "UPDATE Shifts SET end_time = ? WHERE id = ?", (end_time, shift_id)
+            )
         self.conn.commit()
 
     def delete_shift(self, shift_id):
@@ -111,9 +133,12 @@ class OptimizationLogTable:
         self.cursor = self.conn.cursor()
 
     def log_optimization(self, run_date, criteria_used, success_rate):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             INSERT INTO OptimizationLogs (run_date, criteria_used, success_rate)
-            VALUES (?, ?, ?)""", (run_date, criteria_used, success_rate))
+            VALUES (?, ?, ?)""",
+            (run_date, criteria_used, success_rate),
+        )
         self.conn.commit()
 
     def get_all_logs(self):
