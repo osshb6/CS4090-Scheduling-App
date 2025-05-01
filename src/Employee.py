@@ -4,7 +4,7 @@ from TimeFrame import TimeFrame
 
 
 class Employee:
-    def __init__(self, id: int, name: str, birthdate: date, position: str):
+    def __init__(self, id: int, name: str, birthdate: date, position: str) -> None:
         self.id: int = id
         self.name: str = name
         self.birthdate: date = birthdate
