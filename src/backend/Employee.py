@@ -1,4 +1,4 @@
-from datetime import time, date
+from datetime import date
 from typing import List
 from TimeFrame import TimeFrame
 

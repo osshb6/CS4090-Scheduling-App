@@ -1,7 +1,7 @@
 .PHONY: clean
 
 run: clean
-	src/UI.py
+	src/ui/UI.py
 
 clean:
-	black src/*.py
+	black $$(find -name *.py)
