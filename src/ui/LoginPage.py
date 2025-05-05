@@ -9,7 +9,7 @@ class LoginPage(ttk.Frame):
         self.username = ttk.Entry(self)
         self.username.pack(pady=5)
 
-        ttk.Button(self, text="Login", command=lambda: print(self.username.get())).pack(
+        ttk.Button(self, text="Login", command=lambda: controller.show_frame("ManagerPage")).pack(
             pady=10
         )
 
