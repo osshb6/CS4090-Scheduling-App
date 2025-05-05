@@ -1,7 +1,3 @@
-from datetime import date
-from typing import List
-from TimeFrame import TimeFrame
-
 class Employee:
     def __init__(self, id: int, name: str, title: str, position: str) -> None:
         self.id: int = id

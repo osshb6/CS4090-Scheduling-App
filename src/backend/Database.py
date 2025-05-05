@@ -34,8 +34,8 @@ class UserTable:
         self.conn.commit()
         return self.cursor.lastrowid
 
-    def get_user(self, user_id):
-        self.cursor.execute("SELECT * FROM Users WHERE id = ?", (user_id,))
+    def get_user(self, name):
+        self.cursor.execute("SELECT * FROM Users WHERE Name = ?", (name,))
         return self.cursor.fetchone()
 
     def get_all_users(self):
