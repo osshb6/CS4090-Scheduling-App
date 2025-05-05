@@ -6,7 +6,9 @@ class EmployeePage(ttk.Frame):
         super().__init__(parent)
 
         # Title label centered at the top
-        title_label = ttk.Label(self, text="Set Your Availability", font=("Helvetica", 16))
+        title_label = ttk.Label(
+            self, text="Set Your Availability", font=("Helvetica", 16)
+        )
         title_label.pack(pady=20)
 
         # Label for instructions
@@ -15,22 +17,24 @@ class EmployeePage(ttk.Frame):
         # Days of the week checkboxes
         self.days = {
             day: BooleanVar()
-            for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            for day in [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ]
         }
 
         for day, var in self.days.items():
             ttk.Checkbutton(self, text=day, variable=var).pack(anchor="w", padx=40)
 
-        ttk.Button(
-            self,
-            text="Submit",
-            command=self.submit_availability
-        ).pack(pady=20)
+        ttk.Button(self, text="Submit", command=self.submit_availability).pack(pady=20)
 
         ttk.Button(
-            self,
-            text="Sign Out",
-            command=lambda: controller.show_frame("LoginPage")
+            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=20)
 
     def submit_availability(self):

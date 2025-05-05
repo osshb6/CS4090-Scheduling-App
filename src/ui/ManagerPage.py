@@ -18,7 +18,7 @@ class ManagerPage(ttk.Frame):
         ttk.Button(
             self,
             text="Change Your Availability",
-            command=lambda: controller.show_frame("EmployeePage")
+            command=lambda: controller.show_frame("EmployeePage"),
         ).pack(pady=10)
 
         ttk.Button(
@@ -28,7 +28,5 @@ class ManagerPage(ttk.Frame):
         ).pack(pady=10)
 
         ttk.Button(
-            self,
-            text="Sign Out",
-            command=lambda: controller.show_frame("LoginPage")
+            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=10)

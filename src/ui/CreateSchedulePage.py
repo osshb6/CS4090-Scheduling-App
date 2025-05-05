@@ -11,29 +11,31 @@ class CreateSchedulePage(ttk.Frame):
         ttk.Button(
             self,
             text="Strategy1",
-            command=lambda: print("automatically download a file of the generated schedule")
+            command=lambda: print(
+                "automatically download a file of the generated schedule"
+            ),
         ).pack(pady=10)
 
         ttk.Button(
             self,
             text="Strategy2",
-            command=lambda: print("automatically download a file of the generated schedule")
+            command=lambda: print(
+                "automatically download a file of the generated schedule"
+            ),
         ).pack(pady=10)
 
         ttk.Button(
             self,
             text="Strategy3",
-            command=lambda: print("automatically download a file of the generated schedule")
+            command=lambda: print(
+                "automatically download a file of the generated schedule"
+            ),
         ).pack(pady=10)
 
         ttk.Button(
-            self,
-            text="Sign Out",
-            command=lambda: controller.show_frame("LoginPage")
+            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=10)
 
         ttk.Button(
-            self,
-            text="Back",
-            command=lambda: controller.show_frame("ManagerPage")
+            self, text="Back", command=lambda: controller.show_frame("ManagerPage")
         ).pack(pady=10)

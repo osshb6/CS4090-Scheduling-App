@@ -1,4 +1,4 @@
-from tkinter import ttk
+from tkinter import messagebox, ttk
 
 
 class LoginPage(ttk.Frame):
@@ -9,9 +9,9 @@ class LoginPage(ttk.Frame):
         self.username = ttk.Entry(self)
         self.username.pack(pady=5)
 
-        ttk.Button(self, text="Login", command=lambda: controller.show_frame("ManagerPage")).pack(
-            pady=10
-        )
+        ttk.Button(
+            self, text="Login", command=lambda: controller.show_frame("ManagerPage")
+        ).pack(pady=10)
 
         ttk.Label(self, text="Click here to make account").pack(pady=10)
         ttk.Button(
@@ -19,3 +19,11 @@ class LoginPage(ttk.Frame):
             text="Create Account",
             command=lambda: controller.show_frame("CreateAccountPage"),
         ).pack()
+
+    def try_login(self):
+        u = self.ent_user.get().strip()
+
+        if self.controller.user_table.verify_credentials(u):
+            self.controller.show_frame("ManagerPage")
+        else:
+            messagebox.showerror("Login failed", "Bad username / password")
