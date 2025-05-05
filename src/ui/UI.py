@@ -4,18 +4,22 @@ import tkinter as tk
 from tkinter import ttk
 from LoginPage import LoginPage
 from CreateAccountPage import CreateAccountPage
+from EmployeePage import EmployeePage
+from ManagerPage import ManagerPage
+from CreateSchedulePage import CreateSchedulePage
+from SettingsPage import SettingsPage
 
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Scheduling App")
-        self.geometry("400x300")
+        self.geometry("400x600")
         container = ttk.Frame(self)
         container.pack(fill="both", expand=True)
         self.frames = {}
 
-        for temp_page in (LoginPage, CreateAccountPage):
+        for temp_page in (LoginPage, CreateAccountPage, EmployeePage, ManagerPage, CreateSchedulePage, SettingsPage):
             page_name = temp_page.__name__
             frame = temp_page(container, self)
             self.frames[page_name] = frame
