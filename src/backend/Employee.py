@@ -1,12 +1,8 @@
-from datetime import date
-from typing import List
-from TimeFrame import TimeFrame
-
-
 class Employee:
-    def __init__(self, id: int, name: str, birthdate: date, position: str) -> None:
+    def __init__(self, id: int, name: str, title: str, position: str) -> None:
         self.id: int = id
         self.name: str = name
-        self.birthdate: date = birthdate
+        self.title: str = title
         self.position: str = position
-        self.availability: List[List[TimeFrame]] = [[] for _ in range(7)]
+        #key is day of the week and availability is boolean. Default is available every day of the week
+        self.availability: dict = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1}

@@ -3,7 +3,6 @@
 import tkinter as tk
 from tkinter import ttk
 from LoginPage import LoginPage
-from CreateAccountPage import CreateAccountPage
 from EmployeePage import EmployeePage
 from ManagerPage import ManagerPage
 from CreateSchedulePage import CreateSchedulePage
@@ -18,8 +17,9 @@ class App(tk.Tk):
         container = ttk.Frame(self)
         container.pack(fill="both", expand=True)
         self.frames = {}
+        self.user = None
 
-        for temp_page in (LoginPage, CreateAccountPage, EmployeePage, ManagerPage, CreateSchedulePage, SettingsPage):
+        for temp_page in (LoginPage, EmployeePage, ManagerPage, CreateSchedulePage, SettingsPage):
             page_name = temp_page.__name__
             frame = temp_page(container, self)
             self.frames[page_name] = frame
