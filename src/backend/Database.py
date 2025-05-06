@@ -67,8 +67,8 @@ class UserTable:
             )
         self.conn.commit()
 
-    def delete_user(self, user_id):
-        self.cursor.execute("DELETE FROM Users WHERE id = ?", (user_id,))
+    def delete_user(self, name):
+        self.cursor.execute("DELETE FROM Users WHERE name = ?", (name,))
         self.conn.commit()
 
 

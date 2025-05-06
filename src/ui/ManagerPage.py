@@ -16,6 +16,7 @@ class ManagerPage(ttk.Frame):
         ttk.Button(self, text="Delete account", command=self.delete_account).pack(
             pady=8
         )
+        ttk.Button(self,text="Promote employee", command=self.promote).pack(pady=8)
 
         ttk.Button(
             self,
@@ -27,12 +28,6 @@ class ManagerPage(ttk.Frame):
             self,
             text="Change Your Availability",
             command=lambda: controller.show_frame("EmployeePage"),
-        ).pack(pady=10)
-
-        ttk.Button(
-            self,
-            text="Company Settings",
-            command=lambda: controller.show_frame("SettingsPage"),
         ).pack(pady=10)
 
         ttk.Button(
@@ -96,5 +91,29 @@ class ManagerPage(ttk.Frame):
         try:
             UserTable().delete_user(name)
             messagebox.showinfo("Deleted", f"User '{name}' (id {user_id}) removed.")
+        except sqlite3.DatabaseError as err:
+            messagebox.showerror("Database error", str(err))
+
+    def promote(self):
+        name = simpledialog.askstring("Promotion Page", "Username to promote:")
+        if not name:
+            return
+        row = UserTable().get_user(name.strip())
+        if row is None:
+            messagebox.showwarning("Not found", f"No user called '{name}' exists.")
+            return
+        user_id, _, title, role = row
+
+        if role.lower() == "manager":
+            messagebox.showinfo("Already Manager", f"'{name}' is already a manager.")
+            return
+        ok = messagebox.askyesno(
+            "Confirm promotion", f"Promote employee #{user_id} – {name} ({role})?"
+        )
+        if not ok:
+            return
+        try:
+            UserTable().update_user(user_id, role="Manager")
+            messagebox.showinfo("Promoted!!", f"Employee '{name}' (id {user_id}).")
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
