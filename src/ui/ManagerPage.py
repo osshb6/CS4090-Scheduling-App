@@ -31,13 +31,13 @@ class ManagerPage(ttk.Frame):
         ).pack(pady=10)
 
         ttk.Button(
-            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
-        ).pack(pady=10)
-
-        ttk.Button(
             self,
             text="Show Employees",
             command=self.show_employees,
+        ).pack(pady=10)
+
+        ttk.Button(
+            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=10)
 
     def show_employees(self):
