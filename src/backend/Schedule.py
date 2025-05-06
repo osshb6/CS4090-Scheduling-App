@@ -1,6 +1,6 @@
 from typing import List
 from datetime import datetime
-from TimeFrame import TimeFrame
+from backend.TimeFrame import TimeFrame
 
 
 class Schedule:

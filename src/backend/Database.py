@@ -1,11 +1,12 @@
 import sqlite3
-
+import sys
 
 class DatabaseConnection:
     _instance = None
     _connection = None
 
-    def __new__(cls, db_path="../../database/schema.sql"):
+    def __new__(cls, db_path="database/schema.sql"):
+        print("path" + sys.path[0])
         if cls._instance is None:
             cls._instance = super(DatabaseConnection, cls).__new__(cls)
             cls._connection = sqlite3.connect(db_path)

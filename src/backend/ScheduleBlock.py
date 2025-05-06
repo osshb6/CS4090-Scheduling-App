@@ -1,6 +1,6 @@
 from TimeFrame import TimeFrame
 from typing import List
-from Employee import Employee
+from backend.Employee import Employee
 
 
 class ScheduleBlock:
