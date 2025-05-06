@@ -18,7 +18,7 @@ class LoginPage(ttk.Frame):
     def validate_login(self, user_string):
         user = UserTable().get_user(user_string)
         if user:
-            self.controller.user = Employee(id=user[0], name=user[1], title=user[2], position=user[3])
+            self.controller.user = Employee(id=user[0], name=user[1], position=user[2], title=user[3])
             if self.controller.user.title == "Manager":
                 self.controller.show_frame("ManagerPage")
             else:
