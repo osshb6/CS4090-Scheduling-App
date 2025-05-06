@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import tkinter as tk
 from tkinter import ttk
 from ui.LoginPage import LoginPage
@@ -19,7 +17,13 @@ class App(tk.Tk):
         self.frames = {}
         self.user = None
 
-        for temp_page in (LoginPage, EmployeePage, ManagerPage, CreateSchedulePage, SettingsPage):
+        for temp_page in (
+            LoginPage,
+            EmployeePage,
+            ManagerPage,
+            CreateSchedulePage,
+            SettingsPage,
+        ):
             page_name = temp_page.__name__
             frame = temp_page(container, self)
             self.frames[page_name] = frame
@@ -30,8 +34,3 @@ class App(tk.Tk):
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         frame.tkraise()
-
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()

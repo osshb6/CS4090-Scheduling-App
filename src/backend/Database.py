@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 
+
 class DatabaseConnection:
     _instance = None
     _connection = None

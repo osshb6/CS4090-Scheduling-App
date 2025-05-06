@@ -1,7 +1,7 @@
 .PHONY: clean
 
 run: clean
-	src/ui/UI.py
+	src/driver.py
 
 clean:
 	black $$(find -name *.py)

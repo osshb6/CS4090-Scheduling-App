@@ -11,29 +11,25 @@ class SettingsPage(ttk.Frame):
         ttk.Button(
             self,
             text="Get employees",
-            command=lambda: print("call db functions and print somewhere")
+            command=lambda: print("call db functions and print somewhere"),
         ).pack(pady=10)
 
         ttk.Button(
             self,
             text="Delete employee",
-            command=lambda: print("call db functions and print somewhere")
+            command=lambda: print("call db functions and print somewhere"),
         ).pack(pady=10)
 
         ttk.Button(
             self,
             text="Promote employee",
-            command=lambda: print("call db functions and print somewhere")
+            command=lambda: print("call db functions and print somewhere"),
         ).pack(pady=10)
 
         ttk.Button(
-            self,
-            text="Sign Out",
-            command=lambda: controller.show_frame("LoginPage")
+            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=10)
 
         ttk.Button(
-            self,
-            text="Back",
-            command=lambda: controller.show_frame("ManagerPage")
+            self, text="Back", command=lambda: controller.show_frame("ManagerPage")
         ).pack(pady=10)

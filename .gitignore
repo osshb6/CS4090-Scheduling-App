@@ -1,1 +1,3 @@
 src/ui/__pycache__/
+src/debug.py
+src/backend/__pycache__/
