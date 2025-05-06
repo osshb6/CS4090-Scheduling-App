@@ -1,5 +1,4 @@
 import sqlite3
-import sys
 import os
 
 
@@ -8,14 +7,12 @@ class DatabaseConnection:
     _connection = None
 
     def __new__(cls, db_path="database/data.db", schema_path="database/schema.sql"):
-        print("path" + sys.path[0])
         if cls._instance is None:
             cls._instance = super(DatabaseConnection, cls).__new__(cls)
             # If DB doesn't exist, create it and apply schema
             db_exists = os.path.exists(db_path)
             cls._connection = sqlite3.connect(db_path)
             if not db_exists:
-                print("trying to initialize new DB")
                 with open(schema_path, "r") as f:
                     cls._connection.executescript(f.read())
 
