@@ -2,11 +2,11 @@
 
 import tkinter as tk
 from tkinter import ttk
-from LoginPage import LoginPage
-from EmployeePage import EmployeePage
-from ManagerPage import ManagerPage
-from CreateSchedulePage import CreateSchedulePage
-from SettingsPage import SettingsPage
+from ui.LoginPage import LoginPage
+from ui.EmployeePage import EmployeePage
+from ui.ManagerPage import ManagerPage
+from ui.CreateSchedulePage import CreateSchedulePage
+from ui.SettingsPage import SettingsPage
 
 
 class App(tk.Tk):

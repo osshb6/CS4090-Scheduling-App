@@ -1,6 +1,6 @@
 from tkinter import ttk, messagebox
-from src.backend.Database import UserTable
-from src.backend.Employee import Employee
+from backend.Database import UserTable
+from backend.Employee import Employee
 
 
 class LoginPage(ttk.Frame):
