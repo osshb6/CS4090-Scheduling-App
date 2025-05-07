@@ -23,6 +23,7 @@ class App(ThemedTk):
         container.pack(fill="both", expand=True)
         self.frames = {}
         self.user = None
+        self.chosen_schedule = None
         for temp_page in (
             LoginPage,
             EmployeePage,
