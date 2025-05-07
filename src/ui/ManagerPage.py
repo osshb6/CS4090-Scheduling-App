@@ -1,44 +1,60 @@
 import sqlite3
-from tkinter import messagebox, ttk
-from backend.Database import UserTable
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, ttk, simpledialog
+from backend.Database import ShiftTable, UserTable
 
 
 class ManagerPage(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
+        self.controller = controller
 
-        # Top-center label
-        title_label = ttk.Label(self, text="Manager Dashboard", font=("Helvetica", 16))
-        title_label.pack(pady=20)
+        # Apply styles
+        style = ttk.Style()
+        style.configure("Manager.TLabel", font=("Segoe UI", 12), foreground="white", background="#333333")
+        style.configure("Manager.TButton", font=("Segoe UI", 10, "bold"), padding=6)
 
-        ttk.Button(self, text="Add account", command=self.create_account).pack(pady=8)
-        ttk.Button(self, text="Delete account", command=self.delete_account).pack(
-            pady=8
-        )
-        ttk.Button(self, text="Promote employee", command=self.promote).pack(pady=8)
+        # Make this frame fill the window
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ttk.Button(
-            self,
-            text="Create Schedules",
-            command=lambda: controller.show_frame("CreateSchedulePage"),
-        ).pack(pady=10)
+        # Outer frame (centered in page)
+        outer_frame = ttk.Frame(self)
+        outer_frame.grid(row=0, column=0)
+        outer_frame.grid_columnconfigure(0, weight=1)  # Center within outer_frame
 
-        ttk.Button(
-            self,
-            text="Change Your Availability",
-            command=lambda: controller.show_frame("EmployeePage"),
-        ).pack(pady=10)
+        # Center outer_frame in self
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ttk.Button(
-            self,
-            text="Show Employees",
-            command=self.show_employees,
-        ).pack(pady=10)
+        # Title
+        ttk.Label(
+            outer_frame,
+            text="Manager Dashboard",
+            style="Manager.TLabel",
+            font=("Segoe UI", 16, "bold")
+        ).grid(row=0, column=0, pady=(50, 20), sticky="n")
 
-        ttk.Button(
-            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
-        ).pack(pady=10)
+        # Buttons
+        buttons = [
+            ("Add account", self.create_account),
+            ("Delete account", self.delete_account),
+            ("Create Shift", self.create_shift),
+            ("Show Shifts", self.show_shifts),
+            ("Delete Shift", self.delete_shift),
+            ("Promote employee", self.promote),
+            ("Create Schedules", lambda: controller.show_frame("CreateSchedulePage")),
+            ("Change Your Availability", lambda: controller.show_frame("EmployeePage")),
+            ("Show Employees", self.show_employees),
+            ("Sign Out", lambda: controller.show_frame("LoginPage")),
+        ]
+
+        for i, (text, cmd) in enumerate(buttons, start=1):
+            ttk.Button(
+                outer_frame,
+                text=text,
+                style="Manager.TButton",
+                command=cmd
+            ).grid(row=i, column=0, pady=5, padx=40, sticky="ew")
 
     def show_employees(self):
         rows = UserTable().get_all_users()
@@ -117,3 +133,65 @@ class ManagerPage(ttk.Frame):
             messagebox.showinfo("Promoted!!", f"Employee '{name}' (id {user_id}).")
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
+
+
+    def create_shift(self):
+        shift_date = simpledialog.askstring("New shift", "Shift Day of the week")
+
+        if not shift_date:
+            return
+
+        start_time = simpledialog.askstring("New shift", "Start Time (HH:MM):")
+        if not start_time:
+            return
+
+        end_time = simpledialog.askstring("New shift", "End Time (HH:MM):")
+        if not end_time:
+            return
+
+        role = simpledialog.askstring(
+            "New shift", "Name:", initialvalue="Fill in"
+        )
+        if role is None:
+            return
+        role = role.strip().title() or "Fill in"
+
+        try:
+            new_shift_id = ShiftTable().create_shift(shift_date, start_time, end_time, role)
+            messagebox.showinfo("Success", f"Shift #{new_shift_id} on {shift_date} from {start_time} to {end_time} created for {role}.")
+        except sqlite3.IntegrityError as err:
+            messagebox.showerror("Database error", str(err))
+
+    def delete_shift(self):
+        shift_id = simpledialog.askstring("Delete shift", "Enter Shift ID to delete:")
+        if not shift_id:
+            return
+
+        try:
+            ShiftTable().delete_shift(int(shift_id))
+            messagebox.showinfo("Success", f"Shift #{shift_id} has been deleted.")
+        except ValueError:
+            messagebox.showerror("Input error", "Please enter a valid Shift ID.")
+        except sqlite3.DatabaseError as err:
+            messagebox.showerror("Database error", str(err))
+
+
+
+    def show_shifts(self):
+        rows = ShiftTable().get_all_shifts()
+
+        if not rows:
+            messagebox.showinfo("Shifts", "No shifts found.")
+            return
+        
+        msg_lines = [
+            f"Shift ID#{row[0]} – Day - {row[1]} – {row[2]} – {row[3]} for {row[4]}"
+            for row in rows
+        ]
+        msg = "\n".join(msg_lines)
+        messagebox.showinfo("Shifts", msg)
+
+
+
+
+
