@@ -2,4 +2,3 @@ src/ui/__pycache__/
 src/debug.py
 src/backend/__pycache__/
 database/*.db
-storage/schedule.JSON
