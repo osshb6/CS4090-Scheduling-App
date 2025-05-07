@@ -1,10 +1,11 @@
 .PHONY: clean
 
-run: clean
+run:
 	src/driver.py
 
-debug: clean
+debug:
 	python3 src/debug.py
+	
 clean:
 	black $$(find -name *.py)
 
