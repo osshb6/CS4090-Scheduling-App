@@ -103,7 +103,7 @@ class UpdateAvailabilityPage(ttk.Frame):
 
     def remove_interval(self, day, start, end, frame):
         # remove from database
-        AvailabilityTable().delete_by_day_and_time(self.controller.user.id, start, end)
+        AvailabilityTable().delete_by_day_and_time(self.controller.user.id, day, start, end)
         frame.destroy()
 
     def validate_time(self, value, widget_name):
