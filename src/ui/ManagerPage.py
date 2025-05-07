@@ -1,8 +1,7 @@
 import sqlite3
 from tkinter import messagebox, ttk
-from backend.Database import UserTable
+from backend.Database import ShiftTable, UserTable
 from tkinter import messagebox, simpledialog
-
 
 class ManagerPage(ttk.Frame):
     def __init__(self, parent, controller):
@@ -16,6 +15,18 @@ class ManagerPage(ttk.Frame):
         ttk.Button(self, text="Delete account", command=self.delete_account).pack(
             pady=8
         )
+        ttk.Button(self, text="Create Shift", command=self.create_shift).pack(
+            pady=8
+        )
+
+        ttk.Button(self, text="Show Shifts", command=self.show_shifts).pack(
+            pady=8
+        )
+
+        ttk.Button(self, text="Delete Shift", command=self.delete_shift).pack(
+            pady=8
+        )
+
         ttk.Button(self,text="Promote employee", command=self.promote).pack(pady=8)
 
         ttk.Button(
@@ -117,3 +128,65 @@ class ManagerPage(ttk.Frame):
             messagebox.showinfo("Promoted!!", f"Employee '{name}' (id {user_id}).")
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
+
+
+    def create_shift(self):
+        shift_date = simpledialog.askstring("New shift", "Shift Day of the week")
+
+        if not shift_date:
+            return
+
+        start_time = simpledialog.askstring("New shift", "Start Time (HH:MM):")
+        if not start_time:
+            return
+
+        end_time = simpledialog.askstring("New shift", "End Time (HH:MM):")
+        if not end_time:
+            return
+
+        role = simpledialog.askstring(
+            "New shift", "Name:", initialvalue="Fill in"
+        )
+        if role is None:
+            return
+        role = role.strip().title() or "Fill in"
+
+        try:
+            new_shift_id = ShiftTable().create_shift(shift_date, start_time, end_time, role)
+            messagebox.showinfo("Success", f"Shift #{new_shift_id} on {shift_date} from {start_time} to {end_time} created for {role}.")
+        except sqlite3.IntegrityError as err:
+            messagebox.showerror("Database error", str(err))
+
+    def delete_shift(self):
+        shift_id = simpledialog.askstring("Delete shift", "Enter Shift ID to delete:")
+        if not shift_id:
+            return
+
+        try:
+            ShiftTable().delete_shift(int(shift_id))
+            messagebox.showinfo("Success", f"Shift #{shift_id} has been deleted.")
+        except ValueError:
+            messagebox.showerror("Input error", "Please enter a valid Shift ID.")
+        except sqlite3.DatabaseError as err:
+            messagebox.showerror("Database error", str(err))
+
+
+
+    def show_shifts(self):
+        rows = ShiftTable().get_all_shifts()
+
+        if not rows:
+            messagebox.showinfo("Shifts", "No shifts found.")
+            return
+        
+        msg_lines = [
+            f"Shift ID#{row[0]} – Day - {row[1]} – {row[2]} – {row[3]} for {row[4]}"
+            for row in rows
+        ]
+        msg = "\n".join(msg_lines)
+        messagebox.showinfo("Shifts", msg)
+
+
+
+
+
