@@ -9,33 +9,52 @@ class UpdateAvailabilityPage(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-        # Times available in spinbox
+
+        # === Scrollable Frame Setup ===
+        canvas = tk.Canvas(self)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scrollable_frame = ttk.Frame(canvas)
+
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        # Optional: Mousewheel scrolling
+        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
+
+        # === Page Content ===
         self.time_options = [
             f"{h:02}:{m:02}" for h in range(24) for m in (0, 15, 30, 45)
         ]
 
-        ttk.Label(self, text="Update Availability", font=("Arial", 16)).pack(pady=10)
+        ttk.Label(self.scrollable_frame, text="Update Availability", font=("Arial", 16)).pack(pady=10)
         self.day_interval_frames = {}
 
         for day in [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-        ]:  # create section for each day
+            "Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday", "Sunday"
+        ]:
             self.create_day_section(day)
 
         ttk.Button(
-            self,
+            self.scrollable_frame,
             text="Back",
-            command=lambda: controller.show_frame("ManagerPage" if self.controller.user.title == "Manager" else "EmployeeDashboardPage"),
+            command=lambda: controller.show_frame(
+                "ManagerPage" if self.controller.user.title == "Manager" else "EmployeeDashboardPage"
+            ),
         ).pack(pady=10)
 
     def create_day_section(self, day):
-        frame = ttk.LabelFrame(self, text=day)
+        frame = ttk.LabelFrame(self.scrollable_frame, text=day)
         frame.pack(fill="x", padx=10, pady=5)
 
         input_frame = ttk.Frame(frame)
@@ -45,9 +64,8 @@ class UpdateAvailabilityPage(ttk.Frame):
             self.register(self.validate_time),
             "%P",
             "%W",
-        )  # validation function for raw spinbox inputs
+        )
 
-        # spin boxes
         start_spin = tk.Spinbox(
             input_frame,
             values=self.time_options,
@@ -66,6 +84,10 @@ class UpdateAvailabilityPage(ttk.Frame):
         )
         end_spin.pack(side="left", padx=5)
 
+        intervals_frame = ttk.Frame(frame)
+        intervals_frame.pack(fill="x", padx=5, pady=2)
+        self.day_interval_frames[day] = intervals_frame
+
         add_button = ttk.Button(
             input_frame,
             text="Add",
@@ -75,13 +97,9 @@ class UpdateAvailabilityPage(ttk.Frame):
         )
         add_button.pack(side="left", padx=5)
 
-        intervals_frame = ttk.Frame(frame)
-        intervals_frame.pack(fill="x", padx=5, pady=2)
-        self.day_interval_frames[day] = intervals_frame
-
     def add_interval(self, day, start, end, container, write_to_disk=True):
         if start >= end:
-            return  # Invalid interval, do nothing for now
+            return
 
         frame = ttk.Frame(container)
         frame.pack(anchor="w", pady=1)
@@ -97,13 +115,15 @@ class UpdateAvailabilityPage(ttk.Frame):
         )
         delete_btn.pack(side="left", padx=5)
 
-        # add to database
         if write_to_disk:
-            AvailabilityTable().add_availability(self.controller.user.id, day, start, end)
+            AvailabilityTable().add_availability(
+                self.controller.user.id, day, start, end
+            )
 
     def remove_interval(self, day, start, end, frame):
-        # remove from database
-        AvailabilityTable().delete_by_day_and_time(self.controller.user.id, day, start, end)
+        AvailabilityTable().delete_by_day_and_time(
+            self.controller.user.id, day, start, end
+        )
         frame.destroy()
 
     def validate_time(self, value, widget_name):
@@ -114,14 +134,16 @@ class UpdateAvailabilityPage(ttk.Frame):
         return True
 
     def on_show(self):
-        # delete pre-existing interval frames
         for day, frame in self.day_interval_frames.items():
             for widget in frame.winfo_children():
                 widget.destroy()
 
-        # TO-DO: fix weird spacing issue
-
-        # add frames from database
-        availability = AvailabilityTable().get_availability_by_user(self.controller.user.id)
+        availability = AvailabilityTable().get_availability_by_user(
+            self.controller.user.id
+        )
         for interval in availability:
-            self.add_interval(interval[2], interval[3], interval[4], self.day_interval_frames[interval[2]], False)
+            self.add_interval(
+                interval[2], interval[3], interval[4],
+                self.day_interval_frames[interval[2]],
+                write_to_disk=False
+            )
