@@ -132,8 +132,8 @@ class ShiftTable:
             )
         self.conn.commit()
 
-    def delete_shift(self, name):
-        self.cursor.execute("DELETE FROM Shifts WHERE name = ?", (name,))
+    def delete_shift(self, id):
+        self.cursor.execute("DELETE FROM Shifts WHERE id = ?", (id,))
         self.conn.commit()
 
 
