@@ -16,7 +16,7 @@ class ManagerPage(ttk.Frame):
         ttk.Button(self, text="Delete account", command=self.delete_account).pack(
             pady=8
         )
-        ttk.Button(self,text="Promote employee", command=self.promote).pack(pady=8)
+        ttk.Button(self, text="Promote employee", command=self.promote).pack(pady=8)
 
         ttk.Button(
             self,

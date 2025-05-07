@@ -97,7 +97,14 @@ class AvailabilityTable:
 
     def delete_by_user(self, user_id):
         self.cursor.execute("DELETE FROM Availability WHERE user_id = ?", (user_id,))
-        return self.cursor.fetchall()
+        self.conn.commit()
+
+    def delete_by_day_and_time(self, user_id, start_time, end_time):
+        self.cursor.execute(
+            "DELETE FROM Availability WHERE user_id = ? AND start_time = ? AND end_time = ?",
+            (user_id, start_time, end_time),
+        )
+        self.conn.commit()
 
 
 class ShiftTable:

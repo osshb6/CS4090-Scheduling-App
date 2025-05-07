@@ -37,4 +37,6 @@ class App(tk.Tk):
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
+        if hasattr(frame, "on_show"):
+            frame.on_show()
         frame.tkraise()
