@@ -11,3 +11,6 @@ clean:
 
 mock: 
 	python3 src/driver.py --db_path=database/mock_company.db
+
+test:
+	python3 src/unit_tests.py
