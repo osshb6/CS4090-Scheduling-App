@@ -2,6 +2,7 @@
 import argparse
 from backend.Database import DatabaseConnection
 from ui.UI import App
+from backend.Database import DatabaseConnection
 
 
 parser = argparse.ArgumentParser()

@@ -7,6 +7,7 @@ from ui.ManagerPage import ManagerPage
 from ui.SettingsPage import SettingsPage
 from ui.CreateSchedulePage import CreateSchedulePage
 from ui.EmployeeDashboardPage import EmployeeDashboardPage
+from ui.UpdateAvailabilityPage import UpdateAvailabilityPage
 
 
 class App(ThemedTk):
@@ -30,6 +31,7 @@ class App(ThemedTk):
             CreateSchedulePage,
             SettingsPage,
             EmployeeDashboardPage,
+            UpdateAvailabilityPage,
         ):
             page_name = temp_page.__name__
             frame = temp_page(container, self)
@@ -40,4 +42,6 @@ class App(ThemedTk):
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
+        if hasattr(frame, "on_show"):
+            frame.on_show()
         frame.tkraise()

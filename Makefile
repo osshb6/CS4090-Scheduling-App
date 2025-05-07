@@ -1,10 +1,13 @@
 .PHONY: clean
 
-run: clean
+run:
 	src/driver.py
 
+debug:
+	python3 src/debug.py
+	
 clean:
 	black $$(find -name *.py)
 
 mock: 
-	python src/driver.py --db_path=database/mock_company.db
+	python3 src/driver.py --db_path=database/mock_company.db

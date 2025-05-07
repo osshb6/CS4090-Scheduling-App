@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "Availability" (
 	"user_id"	INTEGER,
 	"day_of_week"	TEXT NOT NULL,
 	"start_time"	TEXT NOT NULL,
-	"end_time"	INTEGER,
+	"end_time"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("user_id") REFERENCES "Users"("id") ON DELETE CASCADE
 );
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "OptimizationLogs" (
 CREATE TABLE IF NOT EXISTS "Shifts" (
 	"id"	INTEGER,
 	"user_id"	INTEGER,
-	"day_of_week"	INTEGER NOT NULL,
+	"day_of_week"	TEXT NOT NULL,
 	"start_time"	TEXT NOT NULL,
 	"end_time"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
