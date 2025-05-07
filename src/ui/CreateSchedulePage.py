@@ -1,5 +1,7 @@
 from tkinter import ttk
 import random
+import os
+import json
 from backend.Availability import Availability
 from backend.Database import AvailabilityTable, ShiftTable, UserTable
 from backend.Shift import Shift
@@ -350,7 +352,7 @@ class CreateSchedulePage(ttk.Frame):
         tree.pack(padx=20, pady=10, fill="both", expand=True)
         ttk.Button(popup, text="Close", command=popup.destroy).pack(pady=10)
         ttk.Button(popup, text="Choose Schedule", command= lambda: self.choose_and_close(popup, data)).pack(pady=10)
-        
+
         # Add a legend for the manager indicator
         legend_frame = ttk.Frame(popup)
         legend_frame.pack(pady=5)
@@ -511,4 +513,11 @@ class CreateSchedulePage(ttk.Frame):
     
     def choose_and_close(self, popup, data):
         self.controller.chosen_schedule = data
+        # Save to JSON file
+        try:
+            with open("storage/schedule.JSON", 'w') as f:
+                json.dump(data, f)
+            print("Schedule saved successfully.")
+        except Exception as e:
+            print(f"Error saving schedule: {e}")
         popup.destroy()
