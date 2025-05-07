@@ -15,6 +15,7 @@ class ManagerPage(ttk.Frame):
         ttk.Button(self, text="Delete account", command=self.delete_account).pack(
             pady=8
         )
+
         ttk.Button(self, text="Create Shift", command=self.create_shift).pack(
             pady=8
         )

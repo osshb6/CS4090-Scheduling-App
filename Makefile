@@ -5,3 +5,6 @@ run: clean
 
 clean:
 	black $$(find -name *.py)
+
+mock: 
+	python src/driver.py --db_path=database/mock_company.db
