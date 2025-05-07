@@ -193,6 +193,7 @@ class CreateSchedulePage(ttk.Frame):
         
         tree.pack(padx=20, pady=10, fill="both", expand=True)
         ttk.Button(popup, text="Close", command=popup.destroy).pack(pady=10)
+        ttk.Button(popup, text="Choose Schedule", command= lambda: self.choose_and_close(popup, data)).pack(pady=10)
 
         
     
@@ -348,6 +349,7 @@ class CreateSchedulePage(ttk.Frame):
         
         tree.pack(padx=20, pady=10, fill="both", expand=True)
         ttk.Button(popup, text="Close", command=popup.destroy).pack(pady=10)
+        ttk.Button(popup, text="Choose Schedule", command= lambda: self.choose_and_close(popup, data)).pack(pady=10)
         
         # Add a legend for the manager indicator
         legend_frame = ttk.Frame(popup)
