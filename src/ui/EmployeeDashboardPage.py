@@ -1,4 +1,5 @@
 from tkinter import ttk
+import tkinter as tk
 
 class EmployeeDashboardPage(ttk.Frame):
     def __init__(self, parent, controller):
@@ -35,7 +36,7 @@ class EmployeeDashboardPage(ttk.Frame):
             center_frame,
             text="View Schedule",
             style="Dashboard.TButton",
-            command=lambda: controller.show_frame("ViewSchedulePage")
+            command=self.view_schedule
         ).pack(pady=10, padx=100)
 
         # Button: Sign Out
@@ -45,3 +46,20 @@ class EmployeeDashboardPage(ttk.Frame):
             style="Dashboard.TButton",
             command=lambda: controller.show_frame("LoginPage")
         ).pack(pady=20, padx=100)
+
+    def view_schedule(self):
+        popup = tk.Toplevel(self)
+        popup.title("Optimized Schedule (Minimum Open Shifts)")
+        days_of_week = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        columns = ("Start Time", "End Time") + days_of_week
+        tree = ttk.Treeview(popup, columns=columns, show="headings")
+        for col in columns:
+            tree.heading(col, text=col.title())
+        print(self.controller.chosen_schedule)
+        for row in self.controller.chosen_schedule:
+            tree.insert("", tk.END, values=row)
+        
+        tree.pack(padx=20, pady=10, fill="both", expand=True)
+
+        info_frame = ttk.Frame(popup)
+        info_frame.pack(pady=5, fill="x", expand=True)
