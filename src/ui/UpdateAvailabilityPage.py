@@ -15,7 +15,7 @@ class UpdateAvailabilityPage(ttk.Frame):
         ]
 
         ttk.Label(self, text="Update Availability", font=("Arial", 16)).pack(pady=10)
-        self.day_frames = {}
+        self.day_interval_frames = {}
 
         for day in [
             "Monday",
@@ -23,7 +23,7 @@ class UpdateAvailabilityPage(ttk.Frame):
             "Wednesday",
             "Thursday",
             "Friday",
-            "Saturaday",
+            "Saturday",
             "Sunday",
         ]:  # create section for each day
             self.create_day_section(day)
@@ -37,7 +37,6 @@ class UpdateAvailabilityPage(ttk.Frame):
     def create_day_section(self, day):
         frame = ttk.LabelFrame(self, text=day)
         frame.pack(fill="x", padx=10, pady=5)
-        self.day_frames[day] = frame
 
         input_frame = ttk.Frame(frame)
         input_frame.pack(fill="x", padx=5, pady=2)
@@ -78,8 +77,9 @@ class UpdateAvailabilityPage(ttk.Frame):
 
         intervals_frame = ttk.Frame(frame)
         intervals_frame.pack(fill="x", padx=5, pady=2)
+        self.day_interval_frames[day] = intervals_frame
 
-    def add_interval(self, day, start, end, container):
+    def add_interval(self, day, start, end, container, write_to_disk=True):
         if start >= end:
             return  # Invalid interval, do nothing for now
 
@@ -98,7 +98,8 @@ class UpdateAvailabilityPage(ttk.Frame):
         delete_btn.pack(side="left", padx=5)
 
         # add to database
-        AvailabilityTable().add_availability(self.controller.user.id, day, start, end)
+        if write_to_disk:
+            AvailabilityTable().add_availability(self.controller.user.id, day, start, end)
 
     def remove_interval(self, day, start, end, frame):
         # remove from database
@@ -111,3 +112,16 @@ class UpdateAvailabilityPage(ttk.Frame):
             self.after(1, lambda: self.nametowidget(widget_name).insert(0, "00:00"))
             return False
         return True
+
+    def on_show(self):
+        # delete pre-existing interval frames
+        for day, frame in self.day_interval_frames.items():
+            for widget in frame.winfo_children():
+                widget.destroy()
+
+        # TO-DO: fix weird spacing issue
+
+        # add frames from database
+        availability = AvailabilityTable().get_availability_by_user(self.controller.user.id)
+        for interval in availability:
+            self.add_interval(interval[2], interval[3], interval[4], self.day_interval_frames[interval[2]], False)
