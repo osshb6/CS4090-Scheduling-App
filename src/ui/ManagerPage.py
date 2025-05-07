@@ -1,56 +1,60 @@
 import sqlite3
-from tkinter import messagebox, ttk
+from tkinter import messagebox, ttk, simpledialog
 from backend.Database import ShiftTable, UserTable
-from tkinter import messagebox, simpledialog
+
 
 class ManagerPage(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
+        self.controller = controller
 
-        # Top-center label
-        title_label = ttk.Label(self, text="Manager Dashboard", font=("Helvetica", 16))
-        title_label.pack(pady=20)
+        # Apply styles
+        style = ttk.Style()
+        style.configure("Manager.TLabel", font=("Segoe UI", 12), foreground="white", background="#333333")
+        style.configure("Manager.TButton", font=("Segoe UI", 10, "bold"), padding=6)
 
-        ttk.Button(self, text="Add account", command=self.create_account).pack(pady=8)
-        ttk.Button(self, text="Delete account", command=self.delete_account).pack(
-            pady=8
-        )
+        # Make this frame fill the window
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ttk.Button(self, text="Create Shift", command=self.create_shift).pack(
-            pady=8
-        )
+        # Outer frame (centered in page)
+        outer_frame = ttk.Frame(self)
+        outer_frame.grid(row=0, column=0)
+        outer_frame.grid_columnconfigure(0, weight=1)  # Center within outer_frame
 
-        ttk.Button(self, text="Show Shifts", command=self.show_shifts).pack(
-            pady=8
-        )
+        # Center outer_frame in self
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ttk.Button(self, text="Delete Shift", command=self.delete_shift).pack(
-            pady=8
-        )
+        # Title
+        ttk.Label(
+            outer_frame,
+            text="Manager Dashboard",
+            style="Manager.TLabel",
+            font=("Segoe UI", 16, "bold")
+        ).grid(row=0, column=0, pady=(50, 20), sticky="n")
 
-        ttk.Button(self,text="Promote employee", command=self.promote).pack(pady=8)
+        # Buttons
+        buttons = [
+            ("Add account", self.create_account),
+            ("Delete account", self.delete_account),
+            ("Create Shift", self.create_shift),
+            ("Show Shifts", self.show_shifts),
+            ("Delete Shift", self.delete_shift),
+            ("Promote employee", self.promote),
+            ("Create Schedules", lambda: controller.show_frame("CreateSchedulePage")),
+            ("Change Your Availability", lambda: controller.show_frame("EmployeePage")),
+            ("Show Employees", self.show_employees),
+            ("Sign Out", lambda: controller.show_frame("LoginPage")),
+        ]
 
-        ttk.Button(
-            self,
-            text="Create Schedules",
-            command=lambda: controller.show_frame("CreateSchedulePage"),
-        ).pack(pady=10)
-
-        ttk.Button(
-            self,
-            text="Change Your Availability",
-            command=lambda: controller.show_frame("EmployeePage"),
-        ).pack(pady=10)
-
-        ttk.Button(
-            self,
-            text="Show Employees",
-            command=self.show_employees,
-        ).pack(pady=10)
-
-        ttk.Button(
-            self, text="Sign Out", command=lambda: controller.show_frame("LoginPage")
-        ).pack(pady=10)
+        for i, (text, cmd) in enumerate(buttons, start=1):
+            ttk.Button(
+                outer_frame,
+                text=text,
+                style="Manager.TButton",
+                command=cmd
+            ).grid(row=i, column=0, pady=5, padx=40, sticky="ew")
 
     def show_employees(self):
         rows = UserTable().get_all_users()

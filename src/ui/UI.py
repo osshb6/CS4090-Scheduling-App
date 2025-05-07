@@ -11,9 +11,13 @@ from ui.EmployeeDashboardPage import EmployeeDashboardPage
 
 class App(ThemedTk):
     def __init__(self):
-        super().__init__(theme="blue")
+        super().__init__(theme="equilux")
         self.title("Scheduling App")
-        self.geometry("400x600")
+        self.geometry("600x600")
+        style = ttk.Style(self)
+        style.configure("TLabel", foreground="white", background="#333333")
+        style.configure("TFrame", background="#333333")
+        style.configure("TButton", background="#444444", foreground="white")
         container = ttk.Frame(self)
         container.pack(fill="both", expand=True)
         self.frames = {}
