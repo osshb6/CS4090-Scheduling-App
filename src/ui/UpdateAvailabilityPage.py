@@ -31,7 +31,7 @@ class UpdateAvailabilityPage(ttk.Frame):
         ttk.Button(
             self,
             text="Back",
-            command=lambda: controller.show_frame("EmployeeDashboardPage"),
+            command=lambda: controller.show_frame("ManagerPage" if self.controller.user.title == "Manager" else "EmployeeDashboardPage"),
         ).pack(pady=10)
 
     def create_day_section(self, day):

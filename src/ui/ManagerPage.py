@@ -43,7 +43,7 @@ class ManagerPage(ttk.Frame):
             ("Delete Shift", self.delete_shift),
             ("Promote employee", self.promote),
             ("Create Schedules", lambda: controller.show_frame("CreateSchedulePage")),
-            ("Change Your Availability", lambda: controller.show_frame("EmployeePage")),
+            ("Change Your Availability", lambda: controller.show_frame("UpdateAvailabilityPage")),
             ("Show Employees", self.show_employees),
             ("Sign Out", lambda: controller.show_frame("LoginPage")),
         ]
