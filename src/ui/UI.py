@@ -5,6 +5,7 @@ from ui.LoginPage import LoginPage
 from ui.EmployeePage import EmployeePage
 from ui.ManagerPage import ManagerPage
 from ui.SettingsPage import SettingsPage
+from ui.EmployeeDashboardPage import EmployeeDashboardPage
 
 
 class App(ThemedTk):
@@ -22,6 +23,7 @@ class App(ThemedTk):
             ManagerPage,
             CreateSchedulePage,
             SettingsPage,
+            EmployeeDashboardPage,
         ):
             page_name = temp_page.__name__
             frame = temp_page(container, self)

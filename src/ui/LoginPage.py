@@ -24,6 +24,6 @@ class LoginPage(ttk.Frame):
             if self.controller.user.title == "Manager":
                 self.controller.show_frame("ManagerPage")
             else:
-                self.controller.show_frame("EmployeePage")
+                self.controller.show_frame("EmployeeDashboardPage")
         else:
             messagebox.showerror("Login Failed", "No user found with that name.")
