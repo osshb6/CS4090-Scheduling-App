@@ -55,7 +55,6 @@ class EmployeeDashboardPage(ttk.Frame):
         tree = ttk.Treeview(popup, columns=columns, show="headings")
         for col in columns:
             tree.heading(col, text=col.title())
-        print(self.controller.chosen_schedule)
         for row in self.controller.chosen_schedule:
             tree.insert("", tk.END, values=row)
         
