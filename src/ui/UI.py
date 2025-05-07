@@ -5,6 +5,7 @@ from ui.LoginPage import LoginPage
 from ui.EmployeePage import EmployeePage
 from ui.ManagerPage import ManagerPage
 from ui.SettingsPage import SettingsPage
+from ui.CreateSchedulePage import CreateSchedulePage
 from ui.EmployeeDashboardPage import EmployeeDashboardPage
 
 
