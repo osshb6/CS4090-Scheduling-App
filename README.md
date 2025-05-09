@@ -13,4 +13,4 @@ Initialize a new database for your business environment with `$ python3 src/init
 ### Everyday use
 Run the application with `$ python3 src/driver.py` This will take you to the login page where the application is ready to use.
 ## Quick Start
-For detailed instructions on how to operate the application, see Documentation/user_documentation.pdf
+For detailed instructions on how to operate the application, see `documentation/user_documentation.pdf`
