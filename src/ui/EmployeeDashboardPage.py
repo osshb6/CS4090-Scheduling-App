@@ -65,6 +65,8 @@ class EmployeeDashboardPage(ttk.Frame):
             "Saturday",
             "Sunday",
         )
+
+        # build schedule graphic
         columns = ("Start Time", "End Time") + days_of_week
         tree = ttk.Treeview(popup, columns=columns, show="headings")
         for col in columns:
@@ -72,6 +74,7 @@ class EmployeeDashboardPage(ttk.Frame):
         for row in self.controller.chosen_schedule:
             tree.insert("", tk.END, values=row)
 
+        # display
         tree.pack(padx=20, pady=10, fill="both", expand=True)
 
         info_frame = ttk.Frame(popup)

@@ -80,6 +80,7 @@ class EmployeePage(ttk.Frame):
             command=lambda: controller.show_frame("LoginPage"),
         ).pack(pady=10, padx=100)
 
+    # debug
     def submit_availability(self):
         selected_days = [day for day, var in self.days.items() if var.get()]
         print("Selected days:", selected_days)

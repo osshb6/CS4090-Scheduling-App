@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""
+This script creates a new database with mock data intended for demonstration purposes.
+The database is at database/mock_company.db, which needs to be specified when running
+the driver.
+"""
 from backend.Database import (
     AvailabilityTable,
     DatabaseConnection,

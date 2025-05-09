@@ -15,6 +15,6 @@ test:
 	python3 src/unit_tests.py
 
 clean:
-	rm database/*.db
-	rm storage/schedule.JSON
+	-rm database/*.db
+	-rm storage/schedule.JSON
 	black $$(find -name *.py)

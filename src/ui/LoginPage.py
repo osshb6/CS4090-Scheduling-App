@@ -44,6 +44,7 @@ class LoginPage(ttk.Frame):
             command=lambda: self.validate_login(self.username.get()),
         ).pack(pady=15, padx=200)
 
+    # check user exists and redirect to appropriate page
     def validate_login(self, user_string):
         user = UserTable().get_user(user_string)
         if user:

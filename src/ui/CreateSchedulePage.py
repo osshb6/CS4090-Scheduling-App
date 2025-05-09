@@ -9,6 +9,7 @@ from datetime import datetime
 import tkinter as tk
 
 
+# manage page for schedule creation
 class CreateSchedulePage(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -36,6 +37,7 @@ class CreateSchedulePage(ttk.Frame):
             font=("Segoe UI", 16, "bold"),
         ).pack(pady=(0, 20))
 
+        # schedule option buttons
         ttk.Button(
             center_frame,
             text="Random Valid Checks",
@@ -420,6 +422,7 @@ class CreateSchedulePage(ttk.Frame):
         all_users = UserTable().get_all_users()
         user_names = {user[0]: user[1] for user in all_users}
 
+        # store data in runtime objects
         shift_objects = []
         for shift in shifts:
             shift_objects.append(

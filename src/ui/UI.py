@@ -48,14 +48,16 @@ class App(ThemedTk):
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("LoginPage")
+        self.show_frame("LoginPage")  # start on login page
 
+    # raise chosen frame, checking for on_show to do any intial operations
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         if hasattr(frame, "on_show"):
             frame.on_show()
         frame.tkraise()
 
+    # load chosen schedule from JSON and store in app wide state
     def load_chosen_schedule(self):
         if os.path.exists("storage/schedule.JSON"):
             try:

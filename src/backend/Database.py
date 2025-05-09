@@ -2,6 +2,7 @@ import sqlite3
 import os
 
 
+# singleton for getting connection to database
 class DatabaseConnection:
     _instance = None
     _connection = None
@@ -18,7 +19,7 @@ class DatabaseConnection:
 
         return cls._instance
 
-    def get_connection(self):
+    def get_connection(self):  # return connection to the database
         return self._connection
 
     def close_connection(self):

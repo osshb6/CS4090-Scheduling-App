@@ -61,6 +61,7 @@ class ManagerPage(ttk.Frame):
                 outer_frame, text=text, style="Manager.TButton", command=cmd
             ).grid(row=i, column=0, pady=5, padx=40, sticky="ew")
 
+    # display list of employees in database
     def show_employees(self):
         rows = UserTable().get_all_users()
 
@@ -73,7 +74,9 @@ class ManagerPage(ttk.Frame):
 
         messagebox.showinfo("Employees", msg)
 
+    # add new employee to database
     def create_account(self):
+        # prompts
         name = simpledialog.askstring("New account", "Username:")
         if not name:
             return
@@ -88,43 +91,51 @@ class ManagerPage(ttk.Frame):
             return
         role = role.strip().title() or "Employee"
 
+        # attempt to add with error handling
         try:
             new_id = UserTable().create_user(name, title, role)
             messagebox.showinfo("Success", f"User #{new_id} – {name} ({role}) created.")
         except sqlite3.IntegrityError as err:
             messagebox.showerror("Database error", str(err))
 
+    # remove employee from database
     def delete_account(self):
         name = simpledialog.askstring("Delete account", "Username to delete:")
         if not name:
             return
 
+        # try to find employee
         row = UserTable().get_user(name.strip())
         if row is None:
             messagebox.showwarning("Not found", f"No user called '{name}' exists.")
             return
         user_id, _, title, role = row
+        # confirm delete
         ok = messagebox.askyesno(
             "Confirm delete", f"Delete user #{user_id} – {name} ({role})?"
         )
         if not ok:
             return
+        # attemp to delete with error handling
         try:
             UserTable().delete_user(name)
             messagebox.showinfo("Deleted", f"User '{name}' (id {user_id}) removed.")
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
 
+    # change employee role from employee to manager
     def promote(self):
         name = simpledialog.askstring("Promotion Page", "Username to promote:")
         if not name:
             return
+        # try to find user
         row = UserTable().get_user(name.strip())
         if row is None:
             messagebox.showwarning("Not found", f"No user called '{name}' exists.")
             return
         user_id, _, title, role = row
 
+        # promote with handling for already promoted
         if role.lower() == "manager":
             messagebox.showinfo("Already Manager", f"'{name}' is already a manager.")
             return
@@ -133,13 +144,16 @@ class ManagerPage(ttk.Frame):
         )
         if not ok:
             return
+        # attempt to update in database with error handling
         try:
             UserTable().update_user(user_id, role="Manager")
             messagebox.showinfo("Promoted!!", f"Employee '{name}' (id {user_id}).")
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
 
+    # add a shift to the database
     def create_shift(self):
+        # prompts
         shift_date = simpledialog.askstring("New shift", "Shift Day of the week")
 
         if not shift_date:
@@ -158,6 +172,7 @@ class ManagerPage(ttk.Frame):
             return
         role = role.strip().title() or "Fill in"
 
+        # attempt to add with error handling
         try:
             new_shift_id = ShiftTable().create_shift(
                 shift_date, start_time, end_time, role
