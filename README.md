@@ -1,7 +1,16 @@
-# CS 4090 Scheduling App Project
-## Relevant Documents
-* [TO-DO](https://docs.google.com/document/d/1JMavNVHyQ1ACY-o_JMyl-feqIm7KHTh7mDbAA0aQyqo/edit?usp=drive_link)
-* [Google Drive](https://drive.google.com/drive/folders/1nH31vnpXOoR8UrL8BKhmJubuh1nnK5gL)
-* [Assumptions and Scenarios](https://docs.google.com/document/d/1h0pn3AQDeZ9zTiVtSQ5eWOOc_IzKd7w-qVFB9uim1B4/edit)
-* [UML Diagram](https://www.mermaidchart.com/app/projects/b145b7a1-0008-45cb-b137-571fd44488d5/diagrams/ae527968-ea09-40b4-adc9-9298d8bab9c0/version/v0.1/edit)
-* [Project Requirements](https://docs.google.com/document/d/1CAi1WK_20LHXPMeED7zusNaBzZ2dVZnaneURaLhiNVg/edit)
+# Scheduling App Project
+## About the application
+This is a local desktop application that makes scheduling smarter and easier. Managers can quickly build and adjust weekly schedules (along with other essential operations) based on real-time availability and role requirements, while employees can view their shifts and update their availability directly through the interface.
+## Installation Instructions
+1. Clone the repository to your machine
+2. Optional: Set up virtual python environment for application
+3. Install application dependencies from requirements.txt
+
+Note: This application requires tkinter and sqlite3 which may not be included in the standard library of your interpreter.
+## Running the Application
+### First time setup
+Initialize a new database for your business environment with `$ python3 src/init_blank_with_admin.py` This creates a new environment with one management account (username admin). If this command is giving errors, ensure that database/data.db does not already exist. This should only be performed once when setting up the application, not everytime the app is run. After running the application (see below), you can login with the admin account and configure your business environment as desired.
+### Everyday use
+Run the application with `$ python3 src/driver.py` This will take you to the login page where the application is ready to use.
+## Quick Start
+For detailed instructions on how to operate the application, see Documentation/user_documentation.pdf

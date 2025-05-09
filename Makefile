@@ -17,4 +17,4 @@ test:
 clean:
 	-rm database/*.db
 	-rm storage/schedule.JSON
-	black $$(find -name *.py)
+	cd src; black $$(find -name '*.py')
