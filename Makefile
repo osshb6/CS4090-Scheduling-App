@@ -1,15 +1,15 @@
 .PHONY: clean, run, mock, new
 
 run:
-	src/driver.py
+	python3 src/driver.py
 
 mock:
-	src/init_demo.py
-	src/driver.py --db_path=database/mock_company.db
+	python3 src/init_demo.py
+	python3 src/driver.py --db_path=database/mock_company.db
 
 new:
-	src/init_blank_with_admin.py
-	src/driver.py
+	python3 src/init_blank_with_admin.py
+	python3 src/driver.py
 
 test:
 	python3 src/unit_tests.py
