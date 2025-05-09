@@ -10,7 +10,12 @@ class ManagerPage(ttk.Frame):
 
         # Apply styles
         style = ttk.Style()
-        style.configure("Manager.TLabel", font=("Segoe UI", 12), foreground="white", background="#333333")
+        style.configure(
+            "Manager.TLabel",
+            font=("Segoe UI", 12),
+            foreground="white",
+            background="#333333",
+        )
         style.configure("Manager.TButton", font=("Segoe UI", 10, "bold"), padding=6)
 
         # Make this frame fill the window
@@ -31,7 +36,7 @@ class ManagerPage(ttk.Frame):
             outer_frame,
             text="Manager Dashboard",
             style="Manager.TLabel",
-            font=("Segoe UI", 16, "bold")
+            font=("Segoe UI", 16, "bold"),
         ).grid(row=0, column=0, pady=(50, 20), sticky="n")
 
         # Buttons
@@ -43,17 +48,17 @@ class ManagerPage(ttk.Frame):
             ("Delete Shift", self.delete_shift),
             ("Promote employee", self.promote),
             ("Create Schedules", lambda: controller.show_frame("CreateSchedulePage")),
-            ("Change Your Availability", lambda: controller.show_frame("UpdateAvailabilityPage")),
+            (
+                "Change Your Availability",
+                lambda: controller.show_frame("UpdateAvailabilityPage"),
+            ),
             ("Show Employees", self.show_employees),
             ("Sign Out", lambda: controller.show_frame("LoginPage")),
         ]
 
         for i, (text, cmd) in enumerate(buttons, start=1):
             ttk.Button(
-                outer_frame,
-                text=text,
-                style="Manager.TButton",
-                command=cmd
+                outer_frame, text=text, style="Manager.TButton", command=cmd
             ).grid(row=i, column=0, pady=5, padx=40, sticky="ew")
 
     def show_employees(self):
@@ -134,7 +139,6 @@ class ManagerPage(ttk.Frame):
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
 
-
     def create_shift(self):
         shift_date = simpledialog.askstring("New shift", "Shift Day of the week")
 
@@ -149,16 +153,19 @@ class ManagerPage(ttk.Frame):
         if not end_time:
             return
 
-        role = simpledialog.askstring(
-            "New shift", "Name:", initialvalue="Fill in"
-        )
+        role = simpledialog.askstring("New shift", "Name:", initialvalue="Fill in")
         if role is None:
             return
         role = role.strip().title() or "Fill in"
 
         try:
-            new_shift_id = ShiftTable().create_shift(shift_date, start_time, end_time, role)
-            messagebox.showinfo("Success", f"Shift #{new_shift_id} on {shift_date} from {start_time} to {end_time} created for {role}.")
+            new_shift_id = ShiftTable().create_shift(
+                shift_date, start_time, end_time, role
+            )
+            messagebox.showinfo(
+                "Success",
+                f"Shift #{new_shift_id} on {shift_date} from {start_time} to {end_time} created for {role}.",
+            )
         except sqlite3.IntegrityError as err:
             messagebox.showerror("Database error", str(err))
 
@@ -175,23 +182,16 @@ class ManagerPage(ttk.Frame):
         except sqlite3.DatabaseError as err:
             messagebox.showerror("Database error", str(err))
 
-
-
     def show_shifts(self):
         rows = ShiftTable().get_all_shifts()
 
         if not rows:
             messagebox.showinfo("Shifts", "No shifts found.")
             return
-        
+
         msg_lines = [
             f"Shift ID#{row[0]} – Day - {row[1]} – {row[2]} – {row[3]} for {row[4]}"
             for row in rows
         ]
         msg = "\n".join(msg_lines)
         messagebox.showinfo("Shifts", msg)
-
-
-
-
-

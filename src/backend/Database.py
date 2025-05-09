@@ -44,7 +44,7 @@ class UserTable:
     def get_user(self, name):
         self.cursor.execute("SELECT * FROM Users WHERE Name = ?", (name,))
         return self.cursor.fetchone()
-    
+
     def get_user_from_id(self, id):
         self.cursor.execute("SELECT * FROM Users WHERE id = ?", (id,))
         return self.cursor.fetchone()

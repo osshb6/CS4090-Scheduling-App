@@ -12,6 +12,6 @@ args = parser.parse_args()
 if args.db_path:
     db = DatabaseConnection(db_path=args.db_path)
 else:
-    db = DatabaseConnection()
+    db = DatabaseConnection()  # defaults to data.db
 app = App()
 app.mainloop()

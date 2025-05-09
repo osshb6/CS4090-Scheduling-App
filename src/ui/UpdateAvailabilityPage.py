@@ -16,10 +16,7 @@ class UpdateAvailabilityPage(ttk.Frame):
         self.scrollable_frame = ttk.Frame(canvas)
 
         self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(
-                scrollregion=canvas.bbox("all")
-            )
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
         )
 
         canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
@@ -29,19 +26,29 @@ class UpdateAvailabilityPage(ttk.Frame):
         scrollbar.pack(side="right", fill="y")
 
         # Optional: Mousewheel scrolling
-        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
+        canvas.bind_all(
+            "<MouseWheel>",
+            lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"),
+        )
 
         # === Page Content ===
         self.time_options = [
             f"{h:02}:{m:02}" for h in range(24) for m in (0, 15, 30, 45)
         ]
 
-        ttk.Label(self.scrollable_frame, text="Update Availability", font=("Arial", 16)).pack(pady=10)
+        ttk.Label(
+            self.scrollable_frame, text="Update Availability", font=("Arial", 16)
+        ).pack(pady=10)
         self.day_interval_frames = {}
 
         for day in [
-            "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday", "Sunday"
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
         ]:
             self.create_day_section(day)
 
@@ -49,7 +56,9 @@ class UpdateAvailabilityPage(ttk.Frame):
             self.scrollable_frame,
             text="Back",
             command=lambda: controller.show_frame(
-                "ManagerPage" if self.controller.user.title == "Manager" else "EmployeeDashboardPage"
+                "ManagerPage"
+                if self.controller.user.title == "Manager"
+                else "EmployeeDashboardPage"
             ),
         ).pack(pady=10)
 
@@ -143,7 +152,9 @@ class UpdateAvailabilityPage(ttk.Frame):
         )
         for interval in availability:
             self.add_interval(
-                interval[2], interval[3], interval[4],
+                interval[2],
+                interval[3],
+                interval[4],
                 self.day_interval_frames[interval[2]],
-                write_to_disk=False
+                write_to_disk=False,
             )

@@ -11,18 +11,19 @@ from ui.CreateSchedulePage import CreateSchedulePage
 from ui.EmployeeDashboardPage import EmployeeDashboardPage
 from ui.UpdateAvailabilityPage import UpdateAvailabilityPage
 
+
 class App(ThemedTk):
     def __init__(self):
         super().__init__(theme="equilux")
         self.title("Scheduling App")
         self.geometry("600x600")
-        
+
         # Style settings
         style = ttk.Style(self)
         style.configure("TLabel", foreground="white", background="#333333")
         style.configure("TFrame", background="#333333")
         style.configure("TButton", background="#444444", foreground="white")
-        
+
         # Frame container
         container = ttk.Frame(self)
         container.pack(fill="both", expand=True)
@@ -58,7 +59,7 @@ class App(ThemedTk):
     def load_chosen_schedule(self):
         if os.path.exists("storage/schedule.JSON"):
             try:
-                with open("storage/schedule.JSON", 'r') as f:
+                with open("storage/schedule.JSON", "r") as f:
                     return json.load(f)
             except Exception as e:
                 print(f"Failed to load schedule: {e}")

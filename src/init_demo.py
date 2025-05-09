@@ -1,4 +1,5 @@
-from src.backend.Database import (
+#!/usr/bin/python3
+from backend.Database import (
     AvailabilityTable,
     DatabaseConnection,
     ShiftTable,
