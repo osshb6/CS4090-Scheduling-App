@@ -4,7 +4,6 @@ run:
 	python3 src/driver.py
 
 mock:
-	python3 src/init_demo.py
 	python3 src/driver.py --db_path=database/mock_company.db
 
 new:
